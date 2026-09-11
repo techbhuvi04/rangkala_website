@@ -1,0 +1,29 @@
+{
+  "name": "rangkala-frontend",
+  "version": "1.0.0",
+  "description": "RangKala Creations — Premium Wall Art Studio",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^1.8.4",
+    "cloudinary": "^2.9.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "firebase-admin": "^13.7.0",
+    "http-proxy-middleware": "^3.0.3",
+    "multer": "^2.1.1",
+    "nodemailer": "^10.0.3"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.39.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

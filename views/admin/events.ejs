@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --admin-bg: #0A0A0A; --admin-surface: #111111; --admin-surface-hover: #1A1A1A;
+      --admin-border: rgba(255,255,255,0.08); --admin-text: #FDFBF7; --admin-muted: #8A8A8A;
+      --admin-accent: #C17C59; --admin-danger: #E74C3C; --admin-success: #27AE60;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--admin-bg); color: var(--admin-text); line-height: 1.6; min-height: 100vh; }
+    .admin-sidebar { width: 260px; background: var(--admin-surface); border-right: 1px solid var(--admin-border); padding: 2rem 1.5rem; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
+    .admin-sidebar-brand { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--admin-border); text-decoration: none; color: var(--admin-text); }
+    .admin-sidebar-brand img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+    .admin-sidebar-brand span { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 500; }
+    .admin-nav { list-style: none; flex: 1; }
+    .admin-nav a { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 10px; color: var(--admin-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; margin-bottom: 0.25rem; }
+    .admin-nav a:hover, .admin-nav a.active { background: rgba(193, 124, 89, 0.1); color: var(--admin-accent); }
+    .admin-nav a i { width: 20px; text-align: center; }
+    .admin-sidebar-footer { padding-top: 1rem; border-top: 1px solid var(--admin-border); }
+    .admin-sidebar-footer a { display: flex; align-items: center; gap: 0.5rem; color: var(--admin-muted); text-decoration: none; font-size: 0.85rem; padding: 0.5rem 0; transition: color 0.2s; }
+    .admin-sidebar-footer a:hover { color: var(--admin-text); }
+    .admin-main { margin-left: 260px; padding: 2rem 2.5rem; }
+    .admin-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .admin-topbar h1 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 500; }
+    .admin-topbar-actions { display: flex; gap: 0.75rem; }
+    .admin-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.25rem; border-radius: 10px; font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s ease; text-decoration: none; font-family: inherit; }
+    .admin-btn--primary { background: var(--admin-accent); color: white; }
+    .admin-btn--primary:hover { background: #A06847; transform: translateY(-1px); }
+    .admin-btn--ghost { background: transparent; color: var(--admin-muted); border: 1px solid var(--admin-border); }
+    .admin-btn--ghost:hover { background: var(--admin-surface-hover); color: var(--admin-text); }
+    .admin-btn--danger { background: transparent; color: var(--admin-danger); border: 1px solid rgba(231, 76, 60, 0.2); }
+    .admin-btn--danger:hover { background: rgba(231, 76, 60, 0.1); }
+    .admin-btn--sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+
+    .admin-section-card { background: var(--admin-surface); border: 1px solid var(--admin-border); border-radius: 16px; padding: 1.5rem 1.75rem; margin-bottom: 2rem; }
+    .admin-section-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+    .admin-section-card h3 i { color: var(--admin-accent); }
+
+    .admin-form-group { margin-bottom: 1.1rem; }
+    .admin-form-group label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--admin-muted); margin-bottom: 0.5rem; }
+    .admin-form-group input, .admin-form-group textarea { width: 100%; padding: 0.7rem 1rem; background: var(--admin-bg); border: 1px solid var(--admin-border); border-radius: 10px; color: var(--admin-text); font-size: 0.9rem; font-family: inherit; transition: border-color 0.2s; }
+    .admin-form-group input:focus, .admin-form-group textarea:focus { outline: none; border-color: var(--admin-accent); }
+    .admin-form-group textarea { resize: vertical; min-height: 70px; }
+    .admin-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .admin-form-hint { font-size: 0.75rem; color: var(--admin-muted); margin-top: 0.4rem; }
+
+    .event-tile { background: var(--admin-surface); border: 1px solid var(--admin-border); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; }
+    .event-tile-head { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 0.75rem; }
+    .event-tile-title { font-weight: 600; font-size: 1.05rem; margin-bottom: 0.3rem; }
+    .event-tile-meta { font-size: 0.8rem; color: var(--admin-muted); display: flex; gap: 1rem; flex-wrap: wrap; }
+    .event-tile-desc { font-size: 0.85rem; color: var(--admin-muted); margin-bottom: 1rem; max-width: 640px; }
+    .event-tile-actions { display: flex; gap: 0.5rem; }
+    .event-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 0.6rem; }
+    .event-photo { position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; }
+    .event-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .event-photo .remove-photo { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 50%; background: rgba(0,0,0,0.7); color: #fff; border: none; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; }
+
+    .empty-state { padding: 3rem 2rem; text-align: center; color: var(--admin-muted); }
+    .empty-state i { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.5; }
+
+    .admin-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: flex-start; padding: 4rem 1rem; overflow-y: auto; }
+    .admin-modal-overlay.active { display: flex; }
+    .admin-modal { background: var(--admin-surface); border: 1px solid var(--admin-border); border-radius: 20px; width: 100%; max-width: 560px; }
+    .admin-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--admin-border); }
+    .admin-modal-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 500; }
+    .admin-modal-close { background: none; border: none; color: var(--admin-muted); font-size: 1.2rem; cursor: pointer; padding: 0.25rem; }
+    .admin-modal-close:hover { color: var(--admin-text); }
+    .admin-modal-body { padding: 2rem; }
+    .admin-modal-footer { display: flex; justify-content: flex-end; gap: 0.75rem; padding: 1.25rem 2rem; border-top: 1px solid var(--admin-border); }
+
+    .admin-toast { position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 1.5rem; border-radius: 12px; font-size: 0.9rem; font-weight: 500; z-index: 2000; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; }
+    .admin-toast.show { transform: translateY(0); opacity: 1; }
+    .admin-toast--success { background: var(--admin-success); color: white; }
+    .admin-toast--error { background: var(--admin-danger); color: white; }
+
+    @media (max-width: 1024px) { .admin-sidebar { width: 220px; } .admin-main { margin-left: 220px; } }
+    @media (max-width: 768px) {
+      .admin-sidebar { width: 100%; position: relative; border-right: none; border-bottom: 1px solid var(--admin-border); padding: 1rem; }
+      .admin-main { margin-left: 0; padding: 1.5rem; }
+      body { display: flex; flex-direction: column; }
+      .admin-form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particle-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
+
+  <aside class="admin-sidebar">
+    <a href="/" class="admin-sidebar-brand">
+      <img src="/images/logo.jpeg" alt="RangKala" />
+      <span>RangKala</span>
+    </a>
+    <ul class="admin-nav">
+      <li><a href="/admin/homepage-gallery"><i class="fas fa-house"></i> Homepage Gallery</a></li>
+      <li><a href="/admin/artworks"><i class="fas fa-palette"></i> Artworks</a></li>
+      <li><a href="/admin/services"><i class="fas fa-concierge-bell"></i> Services</a></li>
+      <li><a href="/admin/workshops"><i class="fas fa-chalkboard-teacher"></i> Workshops</a></li>
+      <li><a href="/admin/events" class="active"><i class="fas fa-images"></i> Event Gallery</a></li>
+      <li><a href="/admin/testimonials"><i class="fas fa-quote-left"></i> Testimonials</a></li>
+      <li><a href="/admin/bookings"><i class="fas fa-calendar-check"></i> Bookings</a></li>
+      <li><a href="/"><i class="fas fa-globe"></i> View Site</a></li>
+    </ul>
+    <div class="admin-sidebar-footer">
+      <a href="/admin/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Event Gallery</h1>
+      <div class="admin-topbar-actions">
+        <a href="/events-gallery" class="admin-btn admin-btn--ghost" target="_blank"><i class="fas fa-external-link-alt"></i> View Page</a>
+        <button class="admin-btn admin-btn--primary" id="btn-add-event"><i class="fas fa-plus"></i> Add Event</button>
+      </div>
+    </div>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div style="background: rgba(231, 76, 60, 0.1); border: 1px solid var(--admin-danger); color: var(--admin-danger); padding: 1rem 1.5rem; border-radius: 10px; margin-bottom: 2rem;"><%= error %></div>
+    <% } %>
+
+    <% if (events.length === 0) { %>
+      <div class="empty-state"><i class="fas fa-images"></i><p>No past events added yet. Click "Add Event" to create one.</p></div>
+    <% } %>
+
+    <% events.forEach(function(event) { %>
+      <div class="event-tile" data-id="<%= event.id %>">
+        <div class="event-tile-head">
+          <div>
+            <div class="event-tile-title"><%= event.eventName %></div>
+            <div class="event-tile-meta">
+              <% if (event.eventDate) { %><span><i class="fas fa-calendar"></i> <%= event.eventDate %></span><% } %>
+              <% if (event.location) { %><span><i class="fas fa-map-marker-alt"></i> <%= event.location %></span><% } %>
+              <span><i class="fas fa-image"></i> <%= (event.photos || []).length %> photos</span>
+            </div>
+          </div>
+          <div class="event-tile-actions">
+            <button class="admin-btn admin-btn--ghost admin-btn--sm btn-add-photos" data-id="<%= event.id %>"><i class="fas fa-plus"></i> Add Photos</button>
+            <button class="admin-btn admin-btn--ghost admin-btn--sm btn-edit-event"
+              data-id="<%= event.id %>" data-name="<%= event.eventName %>" data-date="<%= event.eventDate %>"
+              data-location="<%= event.location %>" data-description="<%= event.description %>">
+              <i class="fas fa-pen"></i> Edit
+            </button>
+            <button class="admin-btn admin-btn--danger admin-btn--sm btn-delete-event" data-id="<%= event.id %>" data-name="<%= event.eventName %>">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+        <% if (event.description) { %><p class="event-tile-desc"><%= event.description %></p><% } %>
+        <% if (event.photos && event.photos.length > 0) { %>
+          <div class="event-photos">
+            <% event.photos.forEach(function(photo) { %>
+              <div class="event-photo">
+                <img src="<%= photo %>" alt="" />
+                <button class="remove-photo" data-id="<%= event.id %>" data-url="<%= photo %>" title="Remove photo">&times;</button>
+              </div>
+            <% }); %>
+          </div>
+        <% } %>
+        <input type="file" class="hidden-photo-input" data-id="<%= event.id %>" accept="image/*" multiple style="display:none" />
+      </div>
+    <% }); %>
+  </main>
+
+  <!-- Add / Edit event modal -->
+  <div class="admin-modal-overlay" id="event-modal">
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <h2 id="modal-title">Add Event</h2>
+        <button class="admin-modal-close" id="modal-close">&times;</button>
+      </div>
+      <form id="event-form" enctype="multipart/form-data">
+        <div class="admin-modal-body">
+          <input type="hidden" id="form-id" />
+          <div class="admin-form-group">
+            <label for="form-name">Event Name *</label>
+            <input type="text" id="form-name" name="eventName" required placeholder="e.g. Bundelkhand College Art Workshop" />
+          </div>
+          <div class="admin-form-row">
+            <div class="admin-form-group">
+              <label for="form-date">Date</label>
+              <input type="text" id="form-date" name="eventDate" placeholder="e.g. March 2026 or 2026-03-15" />
+            </div>
+            <div class="admin-form-group">
+              <label for="form-location">Location</label>
+              <input type="text" id="form-location" name="location" placeholder="e.g. Jhansi, UP" />
+            </div>
+          </div>
+          <div class="admin-form-group">
+            <label for="form-description">Description</label>
+            <textarea id="form-description" name="description" placeholder="What was this event about..."></textarea>
+          </div>
+          <div class="admin-form-group" id="new-event-photos-group">
+            <label for="form-photos">Photos (select multiple)</label>
+            <input type="file" id="form-photos" name="photos" accept="image/*" multiple />
+            <p class="admin-form-hint">You can add more photos later from the event's "Add Photos" button.</p>
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="admin-btn admin-btn--ghost" id="modal-cancel">Cancel</button>
+          <button type="submit" class="admin-btn admin-btn--primary" id="modal-submit"><i class="fas fa-save"></i> Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete confirm modal -->
+  <div class="admin-modal-overlay" id="delete-modal">
+    <div class="admin-modal" style="max-width: 420px;">
+      <div class="admin-modal-header">
+        <h2>Confirm Delete</h2>
+        <button class="admin-modal-close" onclick="document.getElementById('delete-modal').classList.remove('active')">&times;</button>
+      </div>
+      <div class="admin-modal-body" style="text-align: center; padding: 2rem;">
+        <i class="fas fa-exclamation-triangle" style="font-size: 2.5rem; color: var(--admin-danger); margin-bottom: 1rem;"></i>
+        <p>Delete this event and all its photos?</p>
+        <p style="font-weight: 600; font-size: 1.1rem;" id="delete-name"></p>
+      </div>
+      <div class="admin-modal-footer" style="justify-content: center;">
+        <button class="admin-btn admin-btn--ghost" onclick="document.getElementById('delete-modal').classList.remove('active')">Cancel</button>
+        <button class="admin-btn admin-btn--danger" id="confirm-delete"><i class="fas fa-trash"></i> Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-toast" id="admin-toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="/js/particles.js"></script>
+  <script src="/js/admin-events.js"></script>
+</body>
+</html>

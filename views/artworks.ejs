@@ -1,0 +1,113 @@
+<%- include('partials/header') %>
+
+<!-- Artworks catalog page -->
+<section class="artworks-page">
+  <div class="container container--wide">
+
+    <!-- Page header -->
+    <header class="artworks-header">
+      <div class="artworks-back reveal">
+        <a href="/" class="artworks-back-link">
+          <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+      </div>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div style="background: rgba(231, 76, 60, 0.1); border: 1px solid rgba(231, 76, 60, 0.5); color: #E74C3C; padding: 1rem 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <h1 class="display-lg word-reveal">Our Artworks</h1>
+    </header>
+
+    <!-- Filters aur search bar -->
+    <div class="artworks-controls">
+      <!-- Category buttons -->
+      <div class="category-pills reveal" id="category-pills">
+        <% categories.forEach(function(cat) { %>
+          <button
+            class="category-pill <%= cat === 'All' ? 'active' : '' %>"
+            data-category="<%= cat %>"
+          >
+            <%= cat %>
+          </button>
+        <% }); %>
+      </div>
+
+      <!-- Search input -->
+      <div class="artworks-search reveal">
+        <i class="fas fa-search artworks-search-icon"></i>
+        <input
+          type="text"
+          id="artwork-search"
+          placeholder="Search by name, style, medium, or tags..."
+          class="artworks-search-input"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <!-- Results count bar -->
+    <div class="artworks-results-bar reveal">
+      <p class="artworks-count" id="artworks-count">
+        Showing <span id="count-number"><%= artworks.length %></span> Results
+      </p>
+      <div class="artworks-view-toggle">
+        <button class="view-btn active" id="view-grid" aria-label="Grid view">
+          <i class="fas fa-th-large"></i>
+        </button>
+        <button class="view-btn" id="view-list" aria-label="List view">
+          <i class="fas fa-list"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Artworks cards grid -->
+    <div class="artworks-grid" id="artworks-grid">
+      <% artworks.forEach(function(art) { %>
+        <a href="/artworks/<%= art.slug %>" class="artwork-card" data-category="<%= art.category %>" data-name="<%= art.name.toLowerCase() %>" data-desc="<%= art.description.toLowerCase() %>" data-tags="<%= art.tags ? art.tags.join(',').toLowerCase() : '' %>">
+          <div class="artwork-card-img">
+            <img src="<%= art.image %>" alt="<%= art.name %>" loading="lazy" />
+            <% if (!art.available) { %>
+              <div class="artwork-badge artwork-badge--sold">Sold</div>
+            <% } %>
+            <% if (art.featured) { %>
+              <div class="artwork-badge artwork-badge--featured">Featured</div>
+            <% } %>
+            <div class="artwork-card-overlay"></div>
+          </div>
+
+          <div class="artwork-card-body">
+            <span class="artwork-card-category"><%= art.category %></span>
+            <h3 class="artwork-card-title"><%= art.name %></h3>
+            <p class="artwork-card-desc"><%= art.description %></p>
+
+            <div class="artwork-card-meta">
+              <% if (art.price) { %>
+                <span class="artwork-card-price"><%= art.price %></span>
+              <% } %>
+              <span class="artwork-card-detail-link">
+                View Details <i class="fas fa-arrow-right"></i>
+              </span>
+            </div>
+          </div>
+        </a>
+      <% }); %>
+    </div>
+
+    <!-- Empty search state -->
+    <div class="artworks-empty" id="artworks-empty" style="display: none;">
+      <i class="fas fa-palette artworks-empty-icon"></i>
+      <p class="artworks-empty-text">No artworks found matching your search criteria.</p>
+      <button class="btn btn-primary" id="reset-filters">
+        Reset All Filters
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<script src="/js/artworks.js"></script>
+
+<%- include('partials/footer') %>

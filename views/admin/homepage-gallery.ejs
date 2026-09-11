@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --admin-bg: #0A0A0A; --admin-surface: #111111; --admin-surface-hover: #1A1A1A;
+      --admin-border: rgba(255,255,255,0.08); --admin-text: #FDFBF7; --admin-muted: #8A8A8A;
+      --admin-accent: #C17C59; --admin-danger: #E74C3C; --admin-success: #27AE60;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--admin-bg); color: var(--admin-text); line-height: 1.6; min-height: 100vh; }
+    .admin-sidebar { width: 260px; background: var(--admin-surface); border-right: 1px solid var(--admin-border); padding: 2rem 1.5rem; display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100; }
+    .admin-sidebar-brand { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--admin-border); text-decoration: none; color: var(--admin-text); }
+    .admin-sidebar-brand img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+    .admin-sidebar-brand span { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 500; }
+    .admin-nav { list-style: none; flex: 1; }
+    .admin-nav a { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border-radius: 10px; color: var(--admin-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: all 0.2s ease; margin-bottom: 0.25rem; }
+    .admin-nav a:hover, .admin-nav a.active { background: rgba(193, 124, 89, 0.1); color: var(--admin-accent); }
+    .admin-nav a i { width: 20px; text-align: center; }
+    .admin-sidebar-footer { padding-top: 1rem; border-top: 1px solid var(--admin-border); }
+    .admin-sidebar-footer a { display: flex; align-items: center; gap: 0.5rem; color: var(--admin-muted); text-decoration: none; font-size: 0.85rem; padding: 0.5rem 0; transition: color 0.2s; }
+    .admin-sidebar-footer a:hover { color: var(--admin-text); }
+    .admin-main { margin-left: 260px; padding: 2rem 2.5rem; }
+    .admin-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .admin-topbar h1 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 500; }
+    .admin-topbar-actions { display: flex; gap: 0.75rem; }
+    .admin-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.25rem; border-radius: 10px; font-size: 0.85rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s ease; text-decoration: none; font-family: inherit; }
+    .admin-btn--primary { background: var(--admin-accent); color: white; }
+    .admin-btn--primary:hover { background: #A06847; transform: translateY(-1px); }
+    .admin-btn--ghost { background: transparent; color: var(--admin-muted); border: 1px solid var(--admin-border); }
+    .admin-btn--ghost:hover { background: var(--admin-surface-hover); color: var(--admin-text); }
+    .admin-btn--danger { background: transparent; color: var(--admin-danger); border: 1px solid rgba(231, 76, 60, 0.2); }
+    .admin-btn--danger:hover { background: rgba(231, 76, 60, 0.1); }
+    .admin-btn--sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+
+    .admin-section-card { background: var(--admin-surface); border: 1px solid var(--admin-border); border-radius: 16px; padding: 1.5rem 1.75rem; margin-bottom: 2rem; }
+    .admin-section-card p.hint { color: var(--admin-muted); font-size: 0.85rem; margin-bottom: 1.25rem; }
+
+    .admin-form-group { margin-bottom: 1.1rem; }
+    .admin-form-group label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--admin-muted); margin-bottom: 0.5rem; }
+    .admin-form-group input { width: 100%; padding: 0.7rem 1rem; background: var(--admin-bg); border: 1px solid var(--admin-border); border-radius: 10px; color: var(--admin-text); font-size: 0.9rem; font-family: inherit; }
+    .admin-form-group input:focus { outline: none; border-color: var(--admin-accent); }
+
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+    .gallery-tile { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 3/4; background: var(--admin-bg); border: 1px solid var(--admin-border); }
+    .gallery-tile img { width: 100%; height: 100%; object-fit: cover; }
+    .gallery-tile .remove-btn {
+      position: absolute; top: 6px; right: 6px; width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(0,0,0,0.7); color: #fff; border: none; cursor: pointer; font-size: 0.9rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .gallery-tile .remove-btn:hover { background: var(--admin-danger); }
+    .gallery-tile .order-badge {
+      position: absolute; top: 6px; left: 6px; background: rgba(0,0,0,0.7); color: #fff;
+      font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 6px; font-weight: 600;
+    }
+    .add-tile {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem;
+      border: 2px dashed var(--admin-border); border-radius: 14px; aspect-ratio: 3/4;
+      color: var(--admin-muted); cursor: pointer; transition: all 0.2s;
+    }
+    .add-tile:hover { border-color: var(--admin-accent); color: var(--admin-accent); }
+    .add-tile i { font-size: 1.5rem; }
+
+    .empty-state { padding: 3rem 2rem; text-align: center; color: var(--admin-muted); grid-column: 1/-1; }
+    .empty-state i { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.5; }
+
+    .admin-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 1000; justify-content: center; align-items: flex-start; padding: 4rem 1rem; overflow-y: auto; }
+    .admin-modal-overlay.active { display: flex; }
+    .admin-modal { background: var(--admin-surface); border: 1px solid var(--admin-border); border-radius: 20px; width: 100%; max-width: 480px; }
+    .admin-modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; border-bottom: 1px solid var(--admin-border); }
+    .admin-modal-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 500; }
+    .admin-modal-close { background: none; border: none; color: var(--admin-muted); font-size: 1.2rem; cursor: pointer; padding: 0.25rem; }
+    .admin-modal-close:hover { color: var(--admin-text); }
+    .admin-modal-body { padding: 2rem; }
+    .admin-modal-footer { display: flex; justify-content: flex-end; gap: 0.75rem; padding: 1.25rem 2rem; border-top: 1px solid var(--admin-border); }
+    .image-preview { margin-top: 0.5rem; width: 100%; max-height: 180px; border-radius: 10px; object-fit: cover; display: none; }
+    .image-preview.visible { display: block; }
+
+    .admin-toast { position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 1.5rem; border-radius: 12px; font-size: 0.9rem; font-weight: 500; z-index: 2000; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; }
+    .admin-toast.show { transform: translateY(0); opacity: 1; }
+    .admin-toast--success { background: var(--admin-success); color: white; }
+    .admin-toast--error { background: var(--admin-danger); color: white; }
+
+    @media (max-width: 1024px) { .admin-sidebar { width: 220px; } .admin-main { margin-left: 220px; } }
+    @media (max-width: 768px) {
+      .admin-sidebar { width: 100%; position: relative; border-right: none; border-bottom: 1px solid var(--admin-border); padding: 1rem; }
+      .admin-main { margin-left: 0; padding: 1.5rem; }
+      body { display: flex; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particle-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
+
+  <aside class="admin-sidebar">
+    <a href="/" class="admin-sidebar-brand">
+      <img src="/images/logo.jpeg" alt="RangKala" />
+      <span>RangKala</span>
+    </a>
+    <ul class="admin-nav">
+      <li><a href="/admin/homepage-gallery" class="active"><i class="fas fa-house"></i> Homepage Gallery</a></li>
+      <li><a href="/admin/artworks"><i class="fas fa-palette"></i> Artworks</a></li>
+      <li><a href="/admin/services"><i class="fas fa-concierge-bell"></i> Services</a></li>
+      <li><a href="/admin/workshops"><i class="fas fa-chalkboard-teacher"></i> Workshops</a></li>
+      <li><a href="/admin/events"><i class="fas fa-images"></i> Event Gallery</a></li>
+      <li><a href="/admin/testimonials"><i class="fas fa-quote-left"></i> Testimonials</a></li>
+      <li><a href="/admin/bookings"><i class="fas fa-calendar-check"></i> Bookings</a></li>
+      <li><a href="/"><i class="fas fa-globe"></i> View Site</a></li>
+    </ul>
+    <div class="admin-sidebar-footer">
+      <a href="/admin/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Homepage Gallery Strip</h1>
+      <div class="admin-topbar-actions">
+        <a href="/" class="admin-btn admin-btn--ghost" target="_blank"><i class="fas fa-external-link-alt"></i> View Homepage</a>
+      </div>
+    </div>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div style="background: rgba(231, 76, 60, 0.1); border: 1px solid var(--admin-danger); color: var(--admin-danger); padding: 1rem 1.5rem; border-radius: 10px; margin-bottom: 2rem;"><%= error %></div>
+    <% } %>
+
+    <div class="admin-section-card">
+      <p class="hint">This is the scrolling image strip near the top of the homepage. Add, reorder, or remove images below.</p>
+
+      <div class="gallery-grid" id="gallery-grid">
+        <% images.forEach(function(item, i) { %>
+          <div class="gallery-tile" data-id="<%= item.id %>">
+            <span class="order-badge">#<%= i + 1 %></span>
+            <img src="<%= item.image %>" alt="Gallery image" />
+            <button class="remove-btn" data-id="<%= item.id %>" title="Remove"><i class="fas fa-trash"></i></button>
+          </div>
+        <% }); %>
+
+        <div class="add-tile" id="btn-add-image">
+          <i class="fas fa-plus"></i>
+          <span>Add Image</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add image modal -->
+  <div class="admin-modal-overlay" id="image-modal">
+    <div class="admin-modal">
+      <div class="admin-modal-header">
+        <h2>Add Gallery Image</h2>
+        <button class="admin-modal-close" id="modal-close">&times;</button>
+      </div>
+      <form id="image-form" enctype="multipart/form-data">
+        <div class="admin-modal-body">
+          <div class="admin-form-group">
+            <label for="form-image">Upload Image</label>
+            <input type="file" id="form-image" name="image" accept="image/*" />
+            <img class="image-preview" id="image-preview" alt="Preview" />
+          </div>
+          <div class="admin-form-group">
+            <label for="form-image-url">Or paste image URL</label>
+            <input type="url" id="form-image-url" name="imageUrl" placeholder="https://..." />
+          </div>
+        </div>
+        <div class="admin-modal-footer">
+          <button type="button" class="admin-btn admin-btn--ghost" id="modal-cancel">Cancel</button>
+          <button type="submit" class="admin-btn admin-btn--primary"><i class="fas fa-save"></i> Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-toast" id="admin-toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="/js/particles.js"></script>
+  <script src="/js/admin-homepage-gallery.js"></script>
+</body>
+</html>

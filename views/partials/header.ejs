@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="RangKala Creations — Custom handcrafted wall paintings for homes, hotels, offices, and commercial spaces. Transform your space with art." />
+  <title><%= title %></title>
+
+  <!-- Google fonts load karo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Animation scripts -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body class="dark-mode">
+  <!-- Home page preloader -->
+  <% if (currentPath === '/') { %>
+  <div class="preloader" id="preloader">
+    <div class="preloader-content">
+      <svg class="progress-ring" width="120" height="120">
+        <circle class="progress-ring__circle-bg" stroke="rgba(255,255,255,0.05)" stroke-width="4" fill="transparent" r="52" cx="60" cy="60"/>
+        <circle class="progress-ring__circle" id="progress-bar" stroke="var(--terracotta)" stroke-width="4" stroke-linecap="round" fill="transparent" r="52" cx="60" cy="60"/>
+      </svg>
+      <div class="preloader-percent" id="preloader-percent">0%</div>
+    </div>
+  </div>
+  <% } %>
+
+  <!-- Particle background canvas -->
+  <canvas id="particle-canvas"></canvas>
+  <!-- 3D Feather model (Home page) -->
+  <% if (currentPath === '/') { %>
+  <div class="feather-container" id="feather-container">
+    <div class="feather-glow" id="feather-glow"></div>
+    <canvas id="feather-canvas"></canvas>
+  </div>
+  <% } %>
+
+  <!-- Header navbar -->
+  <nav class="navbar">
+    <div class="nav-island">
+      <div class="container container--wide">
+        <a href="/" class="nav-logo">
+          <img src="/images/logo.jpeg" alt="RangKala Logo" />
+          <span class="nav-logo-text">RangKala</span>
+        </a>
+
+        <div class="nav-links">
+          <a href="/" class="nav-link <%= currentPath === '/' ? 'active' : '' %>">Home</a>
+          <a href="/about" class="nav-link <%= currentPath === '/about' ? 'active' : '' %>">About</a>
+          <a href="/services" class="nav-link <%= currentPath === '/services' ? 'active' : '' %>">Services</a>
+          <a href="/artworks" class="nav-link <%= currentPath.startsWith('/artworks') ? 'active' : '' %>">Artworks</a>
+          <a href="/portfolio" class="nav-link <%= currentPath === '/portfolio' ? 'active' : '' %>">Workshops</a>
+        </div>
+
+        <div class="nav-actions">
+          <a href="/book" class="nav-cta">Book a Slot</a>
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+            <i class="fas fa-moon"></i>
+            <i class="fas fa-sun"></i>
+          </button>
+        </div>
+
+        <button class="mobile-toggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile screen navigation -->
+  <div class="mobile-menu">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/about" class="nav-link">About</a>
+    <a href="/services" class="nav-link">Services</a>
+    <a href="/artworks" class="nav-link">Artworks</a>
+    <a href="/portfolio" class="nav-link">Workshops</a>
+    <a href="/book" class="nav-link">Book a Slot</a>
+    <a href="/contact" class="nav-link">Contact</a>
+  </div>
+
+  <!-- Page main body -->
+  <main class="main-content">

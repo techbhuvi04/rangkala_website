@@ -1,0 +1,159 @@
+<%- include('partials/header') %>
+
+<!-- Page header -->
+<section class="page-header">
+  <div class="container">
+    <div class="label reveal"><%= page.label %></div>
+    <h1 class="display-lg word-reveal"><%= page.title %></h1>
+    <p class="subtitle reveal">
+      <%= page.subtitle %>
+    </p>
+  </div>
+</section>
+
+<!-- Intro stats -->
+<section class="section" style="padding-top: 0;">
+  <div class="container">
+    <div class="stats-row stagger-children">
+      <div class="stat-item">
+        <div class="stat-number"><%= page.statWorkshops %></div>
+        <div class="stat-label">Workshops Conducted</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><%= page.statStudents %></div>
+        <div class="stat-label">Students Reached</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><%= page.statInstitutions %></div>
+        <div class="stat-label">Institutions Partnered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number"><%= page.statYears %></div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Programs list -->
+<section class="section" style="background: var(--canvas-secondary);">
+  <div class="container">
+    <div class="section-header" style="text-align: center;">
+      <div class="label reveal">WHAT WE OFFER</div>
+      <h2 class="h1 word-reveal">Programs We Organize</h2>
+      <div class="divider" style="margin: var(--space-md) auto;"></div>
+    </div>
+
+    <div class="services-grid">
+      <% cards.forEach(function(card, i) { %>
+        <div class="service-card <%= i % 2 === 0 ? 'reveal-left' : 'reveal-right' %>">
+          <div class="service-img parallax-img" data-speed="<%= -15 - (i % 3) * 5 %>">
+            <img src="<%= card.image %>" alt="<%= card.title %>" />
+          </div>
+          <div class="service-content">
+            <div class="service-number"><%= String(i + 1).padStart(2, '0') %></div>
+            <h3 class="service-title"><%= card.title %></h3>
+            <p class="service-desc reveal">
+              <%= card.description %>
+            </p>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <a href="<%= card.ctaLink || '/contact' %>" class="btn btn-secondary">
+                <%= card.ctaText || 'Enquire Now' %> <span class="btn-arrow">→</span>
+              </a>
+              <a href="/events-gallery" class="btn btn-secondary">
+                <i class="fas fa-images"></i> View Gallery
+              </a>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="section">
+  <div class="container">
+    <div class="section-header" style="text-align: center;">
+      <div class="label reveal">SIMPLE PROCESS</div>
+      <h2 class="h1 word-reveal">How It Works</h2>
+      <div class="divider" style="margin: var(--space-md) auto;"></div>
+    </div>
+
+    <div class="stats-row stagger-children">
+      <div class="stat-item">
+        <div class="stat-number">01</div>
+        <div class="stat-label">You Reach Out<br/>Tell us your institution, dates &amp; group size</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">02</div>
+        <div class="stat-label">We Plan Together<br/>We suggest a format that fits your event</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">03</div>
+        <div class="stat-label">We Show Up<br/>Our artists bring materials &amp; run the session</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">04</div>
+        <div class="stat-label">Everyone Creates<br/>Participants leave with their own artwork</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% if (testimonials && testimonials.length > 0) { %>
+<!-- Testimonials from institutions -->
+<section class="section" style="background: var(--canvas-secondary);">
+  <div class="container">
+    <div class="section-header" style="text-align: center;">
+      <div class="label reveal">FROM OUR PARTNERS</div>
+      <h2 class="h1 word-reveal">What Institutions Say</h2>
+      <div class="divider" style="margin: var(--space-md) auto;"></div>
+    </div>
+
+    <div class="testimonial-grid stagger-children">
+      <% testimonials.forEach(function(t) { %>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">
+            <% for (let s = 1; s <= 5; s++) { %>
+              <i class="fa-solid fa-star" style="color: <%= s <= (t.rating || 5) ? 'var(--terracotta)' : 'rgba(0,0,0,0.15)' %>;"></i>
+            <% } %>
+          </div>
+          <p class="testimonial-quote">&ldquo;<%= t.quote %>&rdquo;</p>
+          <div class="testimonial-author">
+            <span class="testimonial-name"><%= t.name %></span>
+            <% if (t.role) { %><span class="testimonial-role"><%= t.role %></span><% } %>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- Contact block -->
+<section class="section" style="background: var(--canvas-secondary);">
+  <div class="container" style="text-align: center; max-width: 640px;">
+    <div class="label reveal">GET IN TOUCH</div>
+    <h2 class="h1 word-reveal">Organizing a Workshop or Camp?</h2>
+    <p class="subtitle reveal" style="margin: var(--space-sm) auto var(--space-lg);">
+      Reach out directly and let's plan an art experience for your students or team.
+    </p>
+
+    <div class="contact-detail reveal" style="justify-content: center;">
+      <i data-lucide="phone" style="width:18px;height:18px;"></i>
+      <a href="tel:+919936304621">+91 99363 04621</a>
+    </div>
+    <div class="contact-detail reveal" style="justify-content: center;">
+      <i data-lucide="mail" style="width:18px;height:18px;"></i>
+      <a href="mailto:info@rangkalacreations.com">info@rangkalacreations.com</a>
+    </div>
+
+    <a href="https://wa.me/919936304621?text=Hi%2C%20I%27d%20like%20to%20organize%20an%20art%20workshop%2Fevent%20for%20my%20institution."
+       target="_blank" class="btn btn-whatsapp btn-lg reveal" style="margin-top: var(--space-md);">
+      <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+    </a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

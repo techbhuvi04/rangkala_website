@@ -1,0 +1,52 @@
+<%- include('partials/header') %>
+
+<!-- Page header -->
+<section class="page-header">
+  <div class="container">
+    <div class="label reveal"><%= page.label %></div>
+    <h1 class="display-lg word-reveal"><%= page.title %></h1>
+    <p class="subtitle reveal">
+      <%= page.subtitle %>
+    </p>
+  </div>
+</section>
+
+<!-- Services list -->
+<section class="section">
+  <div class="container">
+    <div class="services-grid">
+      <% cards.forEach(function(card, i) { %>
+        <div class="service-card <%= i % 2 === 0 ? 'reveal-left' : 'reveal-right' %>">
+          <div class="service-img parallax-img" data-speed="<%= -15 - (i % 3) * 5 %>">
+            <img src="<%= card.image %>" alt="<%= card.title %>" />
+          </div>
+          <div class="service-content">
+            <div class="service-number"><%= String(i + 1).padStart(2, '0') %></div>
+            <h3 class="service-title"><%= card.title %></h3>
+            <p class="service-desc reveal">
+              <%= card.description %>
+            </p>
+            <a href="<%= card.ctaLink || '/book' %>" class="btn btn-secondary">
+              <%= card.ctaText || 'Book This Service' %> <span class="btn-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+
+<!-- Call to action -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="display-lg word-reveal"><%= page.ctaTitle %></h2>
+    <p class="subtitle reveal" style="margin: var(--space-sm) auto var(--space-lg);">
+      <%= page.ctaSubtitle %>
+    </p>
+    <a href="/book" class="btn btn-accent reveal">
+      Book a Painting Slot <span class="btn-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

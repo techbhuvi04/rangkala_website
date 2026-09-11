@@ -1,0 +1,107 @@
+<%- include('partials/header') %>
+
+<!-- Page header -->
+<section class="page-header">
+  <div class="container">
+    <div class="label reveal">REACH OUT</div>
+    <h1 class="display-lg word-reveal">Get in Touch</h1>
+    <p class="subtitle reveal">
+      We'd love to hear from you. Reach out to discuss your next art project.
+    </p>
+  </div>
+</section>
+
+<!-- Contact section -->
+<section class="section" style="padding-top: 0;">
+  <div class="container">
+    <div class="contact-grid">
+      <!-- Contact information card -->
+      <div class="contact-info-card reveal-left">
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <i data-lucide="phone" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="contact-info-content">
+            <h4 class="reveal">Phone</h4>
+            <a href="tel:+919936304621" class="reveal">+91 99363 04621</a>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <i data-lucide="mail" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="contact-info-content">
+            <h4 class="reveal">Email</h4>
+            <a href="mailto:info@rangkalacreations.com" class="reveal">info@rangkalacreations.com</a>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <i data-lucide="message-circle" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="contact-info-content">
+            <h4 class="reveal">WhatsApp</h4>
+            <a href="https://wa.me/919936304621" target="_blank" class="reveal">Chat with us on WhatsApp</a>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <i data-lucide="map-pin" style="width:20px;height:20px;"></i>
+          </div>
+          <div class="contact-info-content">
+            <h4 class="reveal">Studio Location</h4>
+            <p class="reveal">RISE Jhansi, Civil Lines,<br/>Jhansi, Uttar Pradesh 284001</p>
+          </div>
+        </div>
+
+        <div class="social-links">
+          <a href="https://instagram.com" target="_blank" class="social-link" aria-label="Instagram">
+            <i data-lucide="instagram" style="width:20px;height:20px;"></i>
+          </a>
+          <a href="https://facebook.com" target="_blank" class="social-link" aria-label="Facebook">
+            <i data-lucide="facebook" style="width:20px;height:20px;"></i>
+          </a>
+          <a href="https://wa.me/919936304621" target="_blank" class="social-link" aria-label="WhatsApp">
+            <i data-lucide="message-circle" style="width:20px;height:20px;"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Contact form card -->
+      <div class="form-card reveal-right">
+        <h3 class="h3" style="margin-bottom: var(--space-md);">Send a Message</h3>
+        <form id="contact-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name <span>*</span></label>
+              <input type="text" name="name" class="form-input" placeholder="Full name" required />
+            </div>
+            <div class="form-group">
+              <label>Email <span>*</span></label>
+              <input type="email" name="email" class="form-input" placeholder="your@email.com" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone" class="form-input" placeholder="+91 98765 43210" />
+          </div>
+
+          <div class="form-group">
+            <label>Message <span>*</span></label>
+            <textarea name="message" class="form-textarea" placeholder="Tell us about your project or ask us anything..." rows="5" required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-accent form-submit">
+            Send Message <span class="btn-arrow">→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

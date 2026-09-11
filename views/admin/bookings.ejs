@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --admin-bg: #0A0A0A;
+      --admin-surface: #111111;
+      --admin-surface-hover: #1A1A1A;
+      --admin-border: rgba(255,255,255,0.08);
+      --admin-text: #FDFBF7;
+      --admin-muted: #8A8A8A;
+      --admin-accent: #C17C59;
+      --admin-danger: #E74C3C;
+      --admin-success: #27AE60;
+      --admin-warn: #E2A03F;
+      --admin-info: #4A90D9;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--admin-bg);
+      color: var(--admin-text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .admin-sidebar {
+      width: 260px;
+      background: var(--admin-surface);
+      border-right: 1px solid var(--admin-border);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+    }
+
+    .admin-sidebar-brand {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 2.5rem; padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--admin-border);
+      text-decoration: none; color: var(--admin-text);
+    }
+    .admin-sidebar-brand img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+    .admin-sidebar-brand span { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 500; }
+
+    .admin-nav { list-style: none; flex: 1; }
+    .admin-nav a {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.75rem 1rem; border-radius: 10px;
+      color: var(--admin-muted); text-decoration: none;
+      font-size: 0.9rem; font-weight: 500;
+      transition: all 0.2s ease; margin-bottom: 0.25rem;
+    }
+    .admin-nav a:hover, .admin-nav a.active {
+      background: rgba(193, 124, 89, 0.1); color: var(--admin-accent);
+    }
+    .admin-nav a i { width: 20px; text-align: center; }
+
+    .admin-sidebar-footer { padding-top: 1rem; border-top: 1px solid var(--admin-border); }
+    .admin-sidebar-footer a {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: var(--admin-muted); text-decoration: none;
+      font-size: 0.85rem; padding: 0.5rem 0; transition: color 0.2s;
+    }
+    .admin-sidebar-footer a:hover { color: var(--admin-text); }
+
+    .admin-main { margin-left: 260px; padding: 2rem 2.5rem; }
+
+    .admin-topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 2rem;
+    }
+    .admin-topbar h1 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 500; }
+
+    .admin-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.65rem 1.25rem; border-radius: 10px;
+      font-size: 0.85rem; font-weight: 600; border: none;
+      cursor: pointer; transition: all 0.2s ease;
+      text-decoration: none; font-family: inherit;
+    }
+    .admin-btn--ghost { background: transparent; color: var(--admin-muted); border: 1px solid var(--admin-border); }
+    .admin-btn--ghost:hover { background: var(--admin-surface-hover); color: var(--admin-text); }
+    .admin-btn--danger { background: transparent; color: var(--admin-danger); border: 1px solid rgba(231,76,60,0.2); }
+    .admin-btn--danger:hover { background: rgba(231,76,60,0.1); }
+    .admin-btn--sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+
+    .admin-stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem; margin-bottom: 2rem;
+    }
+    .admin-stat-card {
+      background: var(--admin-surface); border: 1px solid var(--admin-border);
+      border-radius: 16px; padding: 1.5rem;
+    }
+    .admin-stat-card .stat-label {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--admin-muted); margin-bottom: 0.5rem;
+    }
+    .admin-stat-card .stat-value {
+      font-family: 'Cormorant Garamond', serif; font-size: 2.2rem;
+      font-weight: 600; color: var(--admin-text);
+    }
+
+    .admin-table-wrapper {
+      background: var(--admin-surface); border: 1px solid var(--admin-border);
+      border-radius: 16px; overflow: hidden;
+    }
+    .admin-table-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--admin-border);
+      gap: 1rem; flex-wrap: wrap;
+    }
+    .admin-table-header h3 { font-size: 1rem; font-weight: 600; }
+
+    .admin-table-search {
+      display: flex; align-items: center; gap: 0.5rem;
+      background: var(--admin-bg); border: 1px solid var(--admin-border);
+      border-radius: 8px; padding: 0.4rem 0.75rem;
+    }
+    .admin-table-search i { color: var(--admin-muted); font-size: 0.8rem; }
+    .admin-table-search input {
+      background: transparent; border: none; outline: none;
+      color: var(--admin-text); font-size: 0.85rem; width: 220px; font-family: inherit;
+    }
+    .admin-table-search input::placeholder { color: var(--admin-muted); }
+
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 900px; }
+    thead th {
+      padding: 0.85rem 1.5rem; text-align: left;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--admin-muted);
+      border-bottom: 1px solid var(--admin-border); white-space: nowrap;
+    }
+    tbody tr { border-bottom: 1px solid var(--admin-border); transition: background 0.15s ease; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--admin-surface-hover); }
+    tbody td { padding: 1rem 1.5rem; font-size: 0.9rem; vertical-align: top; }
+
+    .cust-name { font-weight: 600; color: var(--admin-text); }
+    .cust-contact { color: var(--admin-muted); font-size: 0.82rem; margin-top: 0.15rem; }
+    .cust-contact a { color: var(--admin-muted); text-decoration: none; }
+    .cust-contact a:hover { color: var(--admin-accent); }
+
+    .msg-cell { max-width: 280px; color: var(--admin-muted); font-size: 0.83rem; }
+
+    .status-select {
+      padding: 0.35rem 0.6rem; border-radius: 8px;
+      background: var(--admin-bg); border: 1px solid var(--admin-border);
+      color: var(--admin-text); font-size: 0.8rem; font-family: inherit;
+      cursor: pointer; font-weight: 600;
+    }
+    .status-select:focus { outline: none; border-color: var(--admin-accent); }
+
+    .badge {
+      display: inline-block; padding: 0.2rem 0.6rem; border-radius: 6px;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .badge--pending   { background: rgba(226,160,63,0.15);  color: var(--admin-warn); }
+    .badge--confirmed { background: rgba(74,144,217,0.15);  color: var(--admin-info); }
+    .badge--done      { background: rgba(39,174,96,0.15);   color: var(--admin-success); }
+    .badge--cancelled { background: rgba(231,76,60,0.15);   color: var(--admin-danger); }
+
+    .empty-state { padding: 4rem 2rem; text-align: center; color: var(--admin-muted); }
+    .empty-state i { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.5; }
+
+    .admin-toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      padding: 1rem 1.5rem; border-radius: 12px;
+      font-size: 0.9rem; font-weight: 500; z-index: 2000;
+      transform: translateY(100px); opacity: 0; transition: all 0.3s ease;
+    }
+    .admin-toast.show { transform: translateY(0); opacity: 1; }
+    .admin-toast--success { background: var(--admin-success); color: white; }
+    .admin-toast--error { background: var(--admin-danger); color: white; }
+
+    @media (max-width: 1024px) {
+      .admin-sidebar { width: 220px; }
+      .admin-main { margin-left: 220px; }
+    }
+    @media (max-width: 768px) {
+      .admin-sidebar {
+        width: 100%; position: relative; border-right: none;
+        border-bottom: 1px solid var(--admin-border); padding: 1rem;
+      }
+      .admin-main { margin-left: 0; padding: 1.5rem; }
+      body { display: flex; flex-direction: column; }
+      .admin-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particle-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
+
+  <aside class="admin-sidebar">
+    <a href="/" class="admin-sidebar-brand">
+      <img src="/images/logo.jpeg" alt="RangKala" />
+      <span>RangKala</span>
+    </a>
+
+    <ul class="admin-nav">
+      <li><a href="/admin/homepage-gallery"><i class="fas fa-house"></i> Homepage Gallery</a></li>
+      <li><a href="/admin/artworks"><i class="fas fa-palette"></i> Artworks</a></li>
+      <li><a href="/admin/services"><i class="fas fa-concierge-bell"></i> Services</a></li>
+      <li><a href="/admin/workshops"><i class="fas fa-chalkboard-teacher"></i> Workshops</a></li>
+      <li><a href="/admin/events"><i class="fas fa-images"></i> Event Gallery</a></li>
+      <li><a href="/admin/testimonials"><i class="fas fa-quote-left"></i> Testimonials</a></li>
+      <li><a href="/admin/bookings" class="active"><i class="fas fa-calendar-check"></i> Bookings</a></li>
+      <li><a href="/"><i class="fas fa-globe"></i> View Site</a></li>
+      <li><a href="/book"><i class="fas fa-calendar-plus"></i> Booking Page</a></li>
+    </ul>
+
+    <div class="admin-sidebar-footer">
+      <a href="/admin/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>Booking Requests</h1>
+      <a href="/book" class="admin-btn admin-btn--ghost" target="_blank">
+        <i class="fas fa-external-link-alt"></i> View Booking Page
+      </a>
+    </div>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div style="background: rgba(231, 76, 60, 0.1); border: 1px solid var(--admin-danger); color: var(--admin-danger); padding: 1rem 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <div class="admin-stats">
+      <div class="admin-stat-card">
+        <div class="stat-label">Total</div>
+        <div class="stat-value"><%= bookings.length %></div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="stat-label">Pending</div>
+        <div class="stat-value"><%= bookings.filter(b => (b.status || 'pending') === 'pending').length %></div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="stat-label">Confirmed</div>
+        <div class="stat-value"><%= bookings.filter(b => b.status === 'confirmed').length %></div>
+      </div>
+      <div class="admin-stat-card">
+        <div class="stat-label">Done</div>
+        <div class="stat-value"><%= bookings.filter(b => b.status === 'done').length %></div>
+      </div>
+    </div>
+
+    <div class="admin-table-wrapper">
+      <div class="admin-table-header">
+        <h3>All Bookings</h3>
+        <div class="admin-table-search">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search name, phone, service..." id="booking-search" />
+        </div>
+      </div>
+
+      <% if (bookings.length === 0) { %>
+        <div class="empty-state">
+          <i class="fas fa-calendar-xmark"></i>
+          <p>No booking requests yet.</p>
+        </div>
+      <% } else { %>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Service</th>
+                <th>Preferred Date</th>
+                <th>Address</th>
+                <th>Details</th>
+                <th>Received</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="booking-table-body">
+              <% bookings.forEach(function(b) { %>
+                <% var st = b.status || 'pending'; %>
+                <tr data-id="<%= b.id %>"
+                    data-search="<%= (b.name + ' ' + (b.phone||'') + ' ' + (b.email||'') + ' ' + (b.service||'')).toLowerCase() %>">
+                  <td>
+                    <div class="cust-name"><%= b.name %></div>
+                    <div class="cust-contact">
+                      <a href="tel:<%= b.phone %>"><i class="fas fa-phone"></i> <%= b.phone %></a>
+                    </div>
+                    <% if (b.email) { %>
+                      <div class="cust-contact">
+                        <a href="mailto:<%= b.email %>"><i class="fas fa-envelope"></i> <%= b.email %></a>
+                      </div>
+                    <% } %>
+                  </td>
+                  <td><%= b.service || '—' %></td>
+                  <td><%= b.preferredDate || '—' %></td>
+                  <td class="msg-cell"><%= b.address || '—' %></td>
+                  <td class="msg-cell"><%= b.message || '—' %></td>
+                  <td style="color: var(--admin-muted); font-size: 0.82rem; white-space: nowrap;">
+                    <%= b.createdAt ? new Date(b.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '—' %>
+                  </td>
+                  <td>
+                    <span class="badge badge--<%= st %>" data-badge><%= st %></span>
+                    <select class="status-select" data-status style="margin-top: 0.5rem;">
+                      <% ['pending','confirmed','done','cancelled'].forEach(function(opt) { %>
+                        <option value="<%= opt %>" <%= st === opt ? 'selected' : '' %>><%= opt %></option>
+                      <% }); %>
+                    </select>
+                  </td>
+                  <td>
+                    <button class="admin-btn admin-btn--danger admin-btn--sm" data-delete title="Delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </div>
+  </main>
+
+  <div class="admin-toast" id="admin-toast"></div>
+
+  <script>
+    function toast(msg, type) {
+      var el = document.getElementById('admin-toast');
+      el.textContent = msg;
+      el.className = 'admin-toast admin-toast--' + (type || 'success') + ' show';
+      setTimeout(function () { el.className = 'admin-toast'; }, 3000);
+    }
+
+    // Search filter
+    var search = document.getElementById('booking-search');
+    if (search) {
+      search.addEventListener('input', function () {
+        var q = this.value.toLowerCase().trim();
+        document.querySelectorAll('#booking-table-body tr').forEach(function (row) {
+          row.style.display = row.dataset.search.includes(q) ? '' : 'none';
+        });
+      });
+    }
+
+    // Status change
+    document.querySelectorAll('[data-status]').forEach(function (sel) {
+      sel.addEventListener('change', async function () {
+        var row = sel.closest('tr');
+        var id = row.dataset.id;
+        var status = sel.value;
+        try {
+          var res = await fetch('/api/bookings/' + id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: status })
+          });
+          if (!res.ok) throw new Error('Failed');
+          var badge = row.querySelector('[data-badge]');
+          badge.textContent = status;
+          badge.className = 'badge badge--' + status;
+          toast('Status updated to ' + status);
+        } catch (e) {
+          toast('Update failed', 'error');
+        }
+      });
+    });
+
+    // Delete
+    document.querySelectorAll('[data-delete]').forEach(function (btn) {
+      btn.addEventListener('click', async function () {
+        var row = btn.closest('tr');
+        var id = row.dataset.id;
+        if (!confirm('Delete this booking request?')) return;
+        try {
+          var res = await fetch('/api/bookings/' + id, { method: 'DELETE' });
+          if (!res.ok) throw new Error('Failed');
+          row.remove();
+          toast('Booking deleted');
+        } catch (e) {
+          toast('Delete failed', 'error');
+        }
+      });
+    });
+  </script>
+  <script src="/js/particles.js"></script>
+</body>
+</html>

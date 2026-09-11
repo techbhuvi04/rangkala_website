@@ -1,0 +1,74 @@
+<%- include('partials/header') %>
+
+<!-- Page header -->
+<section class="page-header">
+  <div class="container">
+    <div class="label reveal">PAST EVENTS</div>
+    <h1 class="display-lg word-reveal">Workshops &amp; Camps We've Run</h1>
+    <p class="subtitle reveal">
+      A look back at the colleges, schools, and organizations we've worked with
+    </p>
+  </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+  <div class="container container--wide">
+
+    <% if (events.length === 0) { %>
+      <div style="text-align: center; padding: 4rem 1rem; color: var(--text-muted);">
+        <i class="fas fa-images" style="font-size: 2.5rem; opacity: 0.4; margin-bottom: 1rem; display: block;"></i>
+        <p>No past events added yet. Check back soon!</p>
+      </div>
+    <% } %>
+
+    <% events.forEach(function(event) { %>
+      <div class="reveal" style="margin-bottom: var(--space-xl); padding-bottom: var(--space-lg); border-bottom: 1px solid rgba(0,0,0,0.08);">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: var(--space-sm);">
+          <div>
+            <h2 class="h2" style="margin-bottom: 0.4rem;"><%= event.eventName %></h2>
+            <div style="display: flex; gap: 1.25rem; flex-wrap: wrap; color: var(--text-muted); font-size: 0.9rem;">
+              <% if (event.eventDate) { %>
+                <span><i class="fas fa-calendar" style="margin-right: 0.4rem;"></i><%= event.eventDate %></span>
+              <% } %>
+              <% if (event.location) { %>
+                <span><i class="fas fa-map-marker-alt" style="margin-right: 0.4rem;"></i><%= event.location %></span>
+              <% } %>
+            </div>
+          </div>
+        </div>
+
+        <% if (event.description) { %>
+          <p class="body-lg" style="margin-bottom: var(--space-md); max-width: 720px;"><%= event.description %></p>
+        <% } %>
+
+        <% if (event.photos && event.photos.length > 0) { %>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.75rem;">
+            <% event.photos.forEach(function(photo) { %>
+              <div style="border-radius: 12px; overflow: hidden; aspect-ratio: 4/3;">
+                <img src="<%= photo %>" alt="<%= event.eventName %>" loading="lazy"
+                     style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;"
+                     onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" />
+              </div>
+            <% }); %>
+          </div>
+        <% } %>
+      </div>
+    <% }); %>
+
+  </div>
+</section>
+
+<!-- Call to action -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="display-lg word-reveal">Want an Event<br/><em>Like This?</em></h2>
+    <p class="subtitle reveal" style="margin: var(--space-sm) auto var(--space-lg);">
+      Let's plan a workshop or camp for your institution
+    </p>
+    <a href="/contact" class="btn btn-accent reveal">
+      Get In Touch <span class="btn-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

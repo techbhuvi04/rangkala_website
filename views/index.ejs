@@ -1,0 +1,316 @@
+<%- include('partials/header') %>
+
+<!-- Hero section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-label label reveal">WHO WE ARE</div>
+      
+      <h1 class="hero-title display-xl hero-title-reveal">
+        Transforming Spaces with Handcrafted Artistic Paintings
+      </h1>
+
+      <p class="hero-subtitle subtitle reveal">
+        Custom wall art for homes, hotels, offices, and commercial spaces by RangKala Creation Pvt Limited
+      </p>
+
+      <div class="hero-actions reveal">
+        <a href="/book" class="btn btn-accent">
+          Book a Painting Slot
+          <span class="btn-arrow">→</span>
+        </a>
+        <a href="/portfolio" class="btn btn-secondary">
+          View Our Work
+          <span class="btn-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="trust-badges reveal">
+        <div class="badge">
+          <span class="badge-icon"><i class="fa-solid fa-check"></i></span>
+          <span>100% Handcrafted</span>
+        </div>
+        <div class="badge">
+          <span class="badge-icon"><i class="fa-solid fa-star"></i></span>
+          <span>Premium Quality</span>
+        </div>
+        <div class="badge">
+          <span class="badge-icon"><i class="fa-solid fa-bolt"></i></span>
+          <span>Best Featured Designs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll down indicator -->
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- Infinite marquee carousel -->
+<section style="padding: 2rem 0; width: 100%; overflow: hidden;">
+  <div class="marquee-wrapper">
+    <div class="marquee-track">
+      <% for(let i=0; i<3; i++) { %>
+        <% galleryImages.forEach(function(item) { %>
+          <div class="marquee-item">
+            <img src="<%= item.image %>" alt="Gallery Art" loading="lazy" />
+          </div>
+        <% }) %>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<!-- Services preview horizontal scroll -->
+<section class="services-section" id="services-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="label reveal">WHAT WE DO</div>
+      <h2 class="h1 word-reveal">Our Services</h2>
+      <div class="divider"></div>
+      <p class="subtitle reveal">
+        Professional hand-painted artwork for every space and occasion
+      </p>
+    </div>
+  </div>
+
+  <div class="services-track-wrapper">
+    <div class="services-track">
+      <!-- Service 1 -->
+      <div class="service-track-card">
+        <div class="service-track-img">
+          <img src="/images/photo-1541961017774-22349e4a1262" alt="Room Paintings" />
+        </div>
+        <div class="service-track-content">
+          <div class="service-number">01</div>
+          <h3 class="service-title">Room Paintings</h3>
+          <p class="service-desc">Transform your living spaces with custom hand-painted art for bedrooms, living rooms, and more.</p>
+          <a href="/services" class="btn btn-secondary">
+            Learn More <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="service-track-card">
+        <div class="service-track-img">
+          <img src="/images/photo-1549289524-06cf8837ace5" alt="Hotels & Resorts" />
+        </div>
+        <div class="service-track-content">
+          <div class="service-number">02</div>
+          <h3 class="service-title">Hotels & Resorts</h3>
+          <p class="service-desc">Create stunning visual experiences for your guests with bespoke wall art installations.</p>
+          <a href="/services" class="btn btn-secondary">
+            Learn More <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Service 3 -->
+      <div class="service-track-card">
+        <div class="service-track-img">
+          <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=1000&fit=crop" alt="Building Exteriors" />
+        </div>
+        <div class="service-track-content">
+          <div class="service-number">03</div>
+          <h3 class="service-title">Building Exteriors</h3>
+          <p class="service-desc">Make a bold statement with artistic murals and paintings on building facades.</p>
+          <a href="/services" class="btn btn-secondary">
+            Learn More <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Service 4 -->
+      <div class="service-track-card">
+        <div class="service-track-img">
+          <img src="/images/photo-1578301978018-3005759f48f7" alt="Office Spaces" />
+        </div>
+        <div class="service-track-content">
+          <div class="service-number">04</div>
+          <h3 class="service-title">Office Spaces</h3>
+          <p class="service-desc">Inspire creativity and productivity with professional artistic paintings for workplaces.</p>
+          <a href="/services" class="btn btn-secondary">
+            Learn More <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Service 5 -->
+      <div class="service-track-card">
+        <div class="service-track-img">
+          <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&h=600&fit=crop" alt="Custom Canvas" />
+        </div>
+        <div class="service-track-content">
+          <div class="service-number">05</div>
+          <h3 class="service-title">Custom Canvas</h3>
+          <p class="service-desc">Commission personalized canvas paintings tailored to your unique vision and style.</p>
+          <a href="/services" class="btn btn-secondary">
+            Learn More <span class="btn-arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured artworks showcase -->
+<section class="section">
+  <div class="container">
+    <div class="section-header" style="text-align: center;">
+      <div class="label reveal">PORTFOLIO</div>
+      <h2 class="h1 word-reveal">Featured Works</h2>
+      <div class="divider" style="margin: var(--space-md) auto;"></div>
+      <p class="subtitle reveal" style="margin: 0 auto;">
+        A glimpse into our portfolio of handcrafted artistic creations
+      </p>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item" data-category="ROOM">
+        <div class="gallery-item-img">
+          <img src="https://images.unsplash.com/photo-1646987916641-1f3c8992daa2?w=600&h=800&fit=crop" alt="Living Room Art" loading="lazy" />
+        </div>
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-number">01</div>
+          <div class="gallery-item-title">Living Room Art</div>
+          <div class="gallery-item-cat">Room</div>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="COMMERCIAL">
+        <div class="gallery-item-img">
+          <img src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&h=800&fit=crop" alt="Abstract Art" loading="lazy" />
+        </div>
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-number">02</div>
+          <div class="gallery-item-title">Abstract Art</div>
+          <div class="gallery-item-cat">Abstract</div>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="TRADITIONAL">
+        <div class="gallery-item-img">
+          <img src="https://images.unsplash.com/photo-1582201942988-13e60e4556ee?w=600&h=800&fit=crop" alt="Traditional Design" loading="lazy" />
+        </div>
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-number">03</div>
+          <div class="gallery-item-title">Traditional Design</div>
+          <div class="gallery-item-cat">Traditional</div>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="MODERN">
+        <div class="gallery-item-img">
+          <img src="https://images.unsplash.com/photo-1549289524-06cf8837ace5?w=600&h=800&fit=crop" alt="Modern Minimal" loading="lazy" />
+        </div>
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-number">04</div>
+          <div class="gallery-item-title">Modern Minimal</div>
+          <div class="gallery-item-cat">Modern</div>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="COMMERCIAL">
+        <div class="gallery-item-img">
+          <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=600&h=800&fit=crop" alt="Canvas Art" loading="lazy" />
+        </div>
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-number">05</div>
+          <div class="gallery-item-title">Canvas Art</div>
+          <div class="gallery-item-cat">Custom</div>
+        </div>
+      </div>
+
+      <div class="gallery-item" data-category="EXTERIOR">
+        <div class="gallery-item-img">
+          <img src="https://images.unsplash.com/photo-1578301978018-3005759f48f7?w=600&h=800&fit=crop" alt="Landscape Painting" loading="lazy" />
+        </div>
+        <div class="gallery-item-overlay">
+          <div class="gallery-item-number">06</div>
+          <div class="gallery-item-title">Landscape Painting</div>
+          <div class="gallery-item-cat">Traditional</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: var(--space-lg);">
+      <a href="/artworks" class="btn btn-secondary reveal">
+        View Full Gallery <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Numbers & stats -->
+<section class="section">
+  <div class="container">
+    <div class="stats-row stagger-children">
+      <div class="stat-item">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Happy Clients</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">1000+</div>
+        <div class="stat-label">Artworks Created</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">8+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Satisfaction Rate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<% if (testimonials && testimonials.length > 0) { %>
+<!-- Testimonials -->
+<section class="section" style="background: var(--canvas-secondary);">
+  <div class="container">
+    <div class="section-header" style="text-align: center;">
+      <div class="label reveal">CLIENT LOVE</div>
+      <h2 class="h1 word-reveal">What Our Clients Say</h2>
+      <div class="divider" style="margin: var(--space-md) auto;"></div>
+    </div>
+
+    <div class="testimonial-grid stagger-children">
+      <% testimonials.forEach(function(t) { %>
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">
+            <% for (let s = 1; s <= 5; s++) { %>
+              <i class="fa-solid fa-star<%= s > (t.rating || 5) ? '' : '' %>" style="color: <%= s <= (t.rating || 5) ? 'var(--terracotta)' : 'rgba(0,0,0,0.15)' %>;"></i>
+            <% } %>
+          </div>
+          <p class="testimonial-quote">&ldquo;<%= t.quote %>&rdquo;</p>
+          <div class="testimonial-author">
+            <span class="testimonial-name"><%= t.name %></span>
+            <% if (t.role) { %><span class="testimonial-role"><%= t.role %></span><% } %>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</section>
+<% } %>
+
+<!-- Call to action block -->
+<section class="cta-section">
+  <div class="container">
+    <div class="label reveal">LET'S CREATE TOGETHER</div>
+    <h2 class="display-lg word-reveal" style="margin-top: var(--space-sm);">Ready to Transform<br/><em>Your Space?</em></h2>
+    <p class="subtitle reveal" style="margin: var(--space-sm) auto var(--space-lg);">
+      Let's bring your vision to life with custom hand-painted art
+    </p>
+    <a href="/book" class="btn btn-accent reveal">
+      Get Started Today <span class="btn-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
